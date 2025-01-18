@@ -67,7 +67,7 @@ abstract class AbstractFileParameterDefinition extends ParameterDefinition {
         try {
             FileItem src = null;
             try {
-                src = req.getFileItem(getName());
+                src = req.getFileItem(getName()); // FileItem Class
             } catch (Exception x) {
                 // TODO simplify when we drop support for Commons FileUpload 1.x
                 String simpleName = Throwables.getRootCause(x).getClass().getSimpleName();
@@ -78,12 +78,16 @@ abstract class AbstractFileParameterDefinition extends ParameterDefinition {
                     throw x;
                 }
             }
-            if (src == null) {
+            if (src == null || src.getContentType() == null) {
+                System.out.println("[Test] Content Type is Null");
                 return null;
             }
             AbstractFileParameterValue p;
             try (InputStream in = src.getInputStream()) {
                 p = createValue(getName(), in);
+            } catch (Exception x) {
+                System.out.println("[Test] Exception: " + x.getMessage());
+                return null;
             }
             src.delete();
             p.setDescription(getDescription());
