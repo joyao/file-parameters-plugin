@@ -78,18 +78,20 @@ abstract class AbstractFileParameterDefinition extends ParameterDefinition {
                     throw x;
                 }
             }
-            throw new IOException("[Test] Src = " + src);
-            // if (src == null) {
-            //     return null;
-            // }
-            // AbstractFileParameterValue p;
-            // try (InputStream in = src.getInputStream()) {
-            //     p = createValue(getName(), in);
-            // }
-            // src.delete();
-            // p.setDescription(getDescription());
-            // p.setFilename(src.getName());
-            // return p;
+            if (src == null) {
+                return null;
+            }
+            if (src.getName() != null) {
+                throw new IOException("[Test] SrcName = " + src.getName() + ", formField=" + src.isFormField());
+            }
+            AbstractFileParameterValue p;
+            try (InputStream in = src.getInputStream()) {
+                p = createValue(getName(), in);
+            }
+            src.delete();
+            p.setDescription(getDescription());
+            p.setFilename(src.getName());
+            return p;
         } catch (ServletException | IOException x) {
             throw new RuntimeException(x);
         }
