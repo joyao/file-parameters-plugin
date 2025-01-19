@@ -24,28 +24,24 @@
 
 package io.jenkins.plugins.file_parameters;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Base64;
-import static java.util.logging.Level.FINE;
-import java.util.logging.Logger;
-
-import javax.servlet.ServletException;
-
-import org.apache.commons.fileupload.FileItem;
-import org.kohsuke.stapler.QueryParameter;
-import org.kohsuke.stapler.StaplerRequest;
-
 import com.google.common.base.Throwables;
-
 import hudson.cli.CLICommand;
 import hudson.model.Failure;
 import hudson.model.ParameterDefinition;
 import hudson.model.ParameterValue;
 import hudson.util.FormValidation;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Base64;
+import javax.servlet.ServletException;
 import jenkins.model.Jenkins;
 import net.sf.json.JSONObject;
+import org.apache.commons.fileupload.FileItem;
+import org.kohsuke.stapler.QueryParameter;
+import org.kohsuke.stapler.StaplerRequest;
+import static java.util.logging.Level.*;
+import java.util.logging.Logger;
 
 abstract class AbstractFileParameterDefinition extends ParameterDefinition {
 
@@ -75,6 +71,7 @@ abstract class AbstractFileParameterDefinition extends ParameterDefinition {
             try {
                 src = req.getFileItem(getName()); // FileItem Class
                 LOGGER.log(FINE, "[Test] getParameterValues('timeout.ini') {0}", req.getParameterValues("timeout.ini"));
+                LOGGER.log(FINE, "[Test] getParameterValues('{0}') {1}", new Object[]{getName(), req.getParameterValues(getName())});
             } catch (Exception x) {
                 // TODO simplify when we drop support for Commons FileUpload 1.x
                 String simpleName = Throwables.getRootCause(x).getClass().getSimpleName();
@@ -128,6 +125,6 @@ abstract class AbstractFileParameterDefinition extends ParameterDefinition {
 
     }
 
-    private static final Logger LOGGER = Logger.getLogger(AbstractFileParameterDefinition.class.getName());
+    private static final Logger LOGGER = Logger.getLogger("File-Parameter");
 
 }
