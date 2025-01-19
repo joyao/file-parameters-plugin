@@ -38,6 +38,7 @@ import javax.servlet.ServletException;
 import jenkins.model.Jenkins;
 import net.sf.json.JSONObject;
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.StaplerRequest;
 import static java.util.logging.Level.*;
@@ -67,13 +68,13 @@ abstract class AbstractFileParameterDefinition extends ParameterDefinition {
 
     @Override public ParameterValue createValue(StaplerRequest req) {
         try {
-            FileItem src = null;
+            DiskFileItem  src = null;
             try {
-                src = req.getFileItem(getName()); // FileItem Class
-                
-                LOGGER.log(FINE, "[Test] getRequestURIWithQueryString()( {0} ) {1}", new Object[]{getName(), req.getRequestURIWithQueryString()});
-                LOGGER.log(FINE, "[Test] getRequestURLWithQueryString()( {0} ) {1}", new Object[]{getName(), req.getRequestURLWithQueryString()});
-                LOGGER.log(FINE, "[Test] getServletContext()( {0} ) {1}", new Object[]{getName(), req.getServletContext().getInitParameter(getName())});
+                src = (DiskFileItem) req.getFileItem(getName()); // FileItem Class
+                LOGGER.log(FINE, "[Test] src.toString {0} ", new Object[]{src.toString()});
+                LOGGER.log(FINE, "[Test] getRequestURLWithQueryString()( {0} ) {1}", new Object[]{getName(), req.getRealPath("/")});
+                LOGGER.log(FINE, "[Test] getOutputStream()( {0} ) {1}", new Object[]{getName(), src.getOutputStream()});
+                LOGGER.log(FINE, "[Test] getString()( {0} ) {1}", new Object[]{getName(), src.getString()});
             } catch (Exception x) {
                 // TODO simplify when we drop support for Commons FileUpload 1.x
                 String simpleName = Throwables.getRootCause(x).getClass().getSimpleName();
