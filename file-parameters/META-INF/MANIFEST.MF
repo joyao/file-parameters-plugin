@@ -10,7 +10,7 @@ Artifact-Id: file-parameters
 Short-Name: file-parameters
 Long-Name: File Parameter Plugin
 Url: https://github.com/jenkinsci/file-parameters-plugin
-Plugin-Version: 999999-SNAPSHOT (private-f5056310-jyhsu)
+Plugin-Version: 999999-SNAPSHOT (private-7a913195-jyhsu)
 Hudson-Version: 2.361.4
 Jenkins-Version: 2.361.4
 Plugin-Dependencies: workflow-api:1213.v646def1087f9,structs:324.va_f5d6
@@ -22,6 +22,6 @@ Plugin-ScmConnection: scm:git:https://github.com/jenkinsci/file-paramete
  rs-plugin.git
 Plugin-ScmTag: HEAD
 Plugin-ScmUrl: https://github.com/jenkinsci/file-parameters-plugin
-Plugin-GitHash: f505631075c07f97836a7b8e818b66f3aa3b446f
-Implementation-Build: f505631075c07f97836a7b8e818b66f3aa3b446f
+Plugin-GitHash: 7a91319570c5c204af9dbda39cebcc4097ce54e8
+Implementation-Build: 7a91319570c5c204af9dbda39cebcc4097ce54e8
 

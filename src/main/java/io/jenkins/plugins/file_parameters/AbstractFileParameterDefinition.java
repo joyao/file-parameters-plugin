@@ -70,8 +70,7 @@ abstract class AbstractFileParameterDefinition extends ParameterDefinition {
             FileItem src = null;
             try {
                 src = req.getFileItem(getName()); // FileItem Class
-                LOGGER.log(FINE, "[Test] getAttributeNames() {}", req.getAttributeNames());
-                LOGGER.log(FINE, "[Test] getAttribute( {0} ) {1}", new Object[]{getName(), req.getAttribute(getName())});
+                LOGGER.log(FINE, "[Test] getSize()( {0} ) {1}", new Object[]{getName(), src.getSize()});
             } catch (Exception x) {
                 // TODO simplify when we drop support for Commons FileUpload 1.x
                 String simpleName = Throwables.getRootCause(x).getClass().getSimpleName();
