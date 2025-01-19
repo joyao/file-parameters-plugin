@@ -66,19 +66,22 @@ abstract class AbstractFileParameterDefinition extends ParameterDefinition {
     @Override public ParameterValue createValue(StaplerRequest req) {
         try {
             FileItem src = null;
-            try {
-                src = req.getFileItem(getName()); // FileItem Class
-            } catch (Exception x) {
-                // TODO simplify when we drop support for Commons FileUpload 1.x
-                String simpleName = Throwables.getRootCause(x).getClass().getSimpleName();
-                if ("InvalidContentTypeException".equals(simpleName) /* Commons FileUpload 1.x */
-                        || "FileUploadContentTypeException".equals(simpleName)) /* Commons FileUpload 2.x */ {
-                    src = null;
-                } else {
-                    throw x;
+            if (req.hasParameter(getName())) {
+                try {
+                    src = req.getFileItem(getName()); // FileItem Class
+                } catch (Exception x) {
+                    // TODO simplify when we drop support for Commons FileUpload 1.x
+                    String simpleName = Throwables.getRootCause(x).getClass().getSimpleName();
+                    if ("InvalidContentTypeException".equals(simpleName) /* Commons FileUpload 1.x */
+                            || "FileUploadContentTypeException".equals(simpleName)) /* Commons FileUpload 2.x */ {
+                        src = null;
+                    } else {
+                        throw x;
+                    }
                 }
             }
-            if (src == null || src.get() == null) {
+            
+            if (src == null) {
                 return null;
             }
             AbstractFileParameterValue p;
