@@ -81,8 +81,8 @@ abstract class AbstractFileParameterDefinition extends ParameterDefinition {
             if (src == null) {
                 return null;
             }
-            if (src.getName() == "timeout.ini") {
-                throw new IOException("[Test] SrcName = " + src.getName() + ", SrcSize=" + src.getSize());
+            if (getName() == null) {
+                throw new IOException("[Test] getName is null");
             }
             AbstractFileParameterValue p;
             try (InputStream in = src.getInputStream()) {
