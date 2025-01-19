@@ -70,8 +70,8 @@ abstract class AbstractFileParameterDefinition extends ParameterDefinition {
             FileItem src = null;
             try {
                 src = req.getFileItem(getName()); // FileItem Class
-                LOGGER.log(FINE, "[Test] getParameterValues('timeout.ini') {0}", req.getParameterValues("timeout.ini"));
-                LOGGER.log(FINE, "[Test] getParameterValues('{0}') {1}", new Object[]{getName(), req.getParameterValues(getName())});
+                LOGGER.log(FINE, "[Test] getParameterNames() {}", req.getParameterNames());
+                LOGGER.log(FINE, "[Test] getParameterValues( {0} ) {1}", new Object[]{getName(), req.getParameterValues(getName())});
             } catch (Exception x) {
                 // TODO simplify when we drop support for Commons FileUpload 1.x
                 String simpleName = Throwables.getRootCause(x).getClass().getSimpleName();
