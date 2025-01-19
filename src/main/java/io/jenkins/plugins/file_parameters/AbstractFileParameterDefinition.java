@@ -78,11 +78,8 @@ abstract class AbstractFileParameterDefinition extends ParameterDefinition {
                     throw x;
                 }
             }
-            if (src == null) {
+            if (src == null || src.get() == null) {
                 return null;
-            }
-            if (src.get() != null) {
-                throw new IOException("[Test] src get: " + src.get());
             }
             AbstractFileParameterValue p;
             try (InputStream in = src.getInputStream()) {
