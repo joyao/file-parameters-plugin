@@ -38,6 +38,7 @@ import javax.servlet.ServletException;
 import jenkins.model.Jenkins;
 import net.sf.json.JSONObject;
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadBase;
 import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.StaplerRequest;
 
@@ -66,18 +67,16 @@ abstract class AbstractFileParameterDefinition extends ParameterDefinition {
     @Override public ParameterValue createValue(StaplerRequest req) {
         try {
             FileItem src = null;
-            if (req.hasParameter(getName())) {
-                try {
-                    src = req.getFileItem(getName()); // FileItem Class
-                } catch (Exception x) {
-                    // TODO simplify when we drop support for Commons FileUpload 1.x
-                    String simpleName = Throwables.getRootCause(x).getClass().getSimpleName();
-                    if ("InvalidContentTypeException".equals(simpleName) /* Commons FileUpload 1.x */
-                            || "FileUploadContentTypeException".equals(simpleName)) /* Commons FileUpload 2.x */ {
-                        src = null;
-                    } else {
-                        throw x;
-                    }
+            try {
+                src = req.getFileItem(getName()); // FileItem Class
+            } catch (Exception x) {
+                // TODO simplify when we drop support for Commons FileUpload 1.x
+                String simpleName = Throwables.getRootCause(x).getClass().getSimpleName();
+                if ("InvalidContentTypeException".equals(simpleName) /* Commons FileUpload 1.x */
+                        || "FileUploadContentTypeException".equals(simpleName)) /* Commons FileUpload 2.x */ {
+                    src = null;
+                } else {
+                    throw x;
                 }
             }
             
