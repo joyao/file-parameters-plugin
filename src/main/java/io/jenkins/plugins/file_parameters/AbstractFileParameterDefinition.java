@@ -24,25 +24,28 @@
 
 package io.jenkins.plugins.file_parameters;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Base64;
+import static java.util.logging.Level.FINE;
+import java.util.logging.Logger;
+
+import javax.servlet.ServletException;
+
+import org.apache.commons.fileupload.FileItem;
+import org.kohsuke.stapler.QueryParameter;
+import org.kohsuke.stapler.StaplerRequest;
+
 import com.google.common.base.Throwables;
+
 import hudson.cli.CLICommand;
 import hudson.model.Failure;
 import hudson.model.ParameterDefinition;
 import hudson.model.ParameterValue;
 import hudson.util.FormValidation;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Base64;
-import javax.servlet.ServletException;
 import jenkins.model.Jenkins;
 import net.sf.json.JSONObject;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItem;
-import org.kohsuke.stapler.QueryParameter;
-import org.kohsuke.stapler.StaplerRequest;
-import static java.util.logging.Level.*;
-import java.util.logging.Logger;
 
 abstract class AbstractFileParameterDefinition extends ParameterDefinition {
 
@@ -68,9 +71,9 @@ abstract class AbstractFileParameterDefinition extends ParameterDefinition {
 
     @Override public ParameterValue createValue(StaplerRequest req) {
         try {
-            DiskFileItem  src = null;
+            FileItem  src = null;
             try {
-                src = (DiskFileItem) req.getFileItem(getName()); // FileItem Class
+                src = req.getFileItem(getName()); // FileItem Class
                 LOGGER.log(FINE, "[Test] src.toString {0} ", new Object[]{src.toString()});
                 LOGGER.log(FINE, "[Test] getRequestURLWithQueryString()( {0} ) {1}", new Object[]{getName(), req.getRealPath("/")});
                 LOGGER.log(FINE, "[Test] getOutputStream()( {0} ) {1}", new Object[]{getName(), src.getOutputStream()});
